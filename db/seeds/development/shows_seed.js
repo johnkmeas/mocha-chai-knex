@@ -32,5 +32,12 @@ exports.seed = function(knex, Promise) {
         rating: 3,
         explicit: false
       });
-    });
+    }).then(function () {
+      return knex('users').del() // Deletes ALL existing entries
+        .then(function() { // Inserts seed entries one by one in series
+          return knex('users').insert({
+            name: 'John'
+          });
+        });
+      });
 };
